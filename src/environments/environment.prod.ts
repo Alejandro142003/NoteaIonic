@@ -1,13 +1,12 @@
 export const environment = {
   production: true,
-  firebaseConfig : {
-    apiKey: "AIzaSyC4QZnpXGOjlFL3OM7vE8r6dQoyxztBSO8",
-    authDomain: "notea2324.firebaseapp.com",
-    projectId: "notea2324",
-    storageBucket: "notea2324.appspot.com",
-    messagingSenderId: "14936493487",
-    appId: "1:14936493487:web:b8e1f82fb94de94262335a",
-    measurementId: "G-FX34BJGLV6",
-    collectionName:'todo'
-  }
+  firebaseConfig: {
+    apiKey: 'AIzaSyDFwbP_KabFMcPODJRdp2dglxTnOV27Ylo',
+    authDomain: 'noteaionic-61d56.firebaseapp.com',
+    projectId: 'noteaionic-61d56',
+    storageBucket: 'noteaionic-61d56.appspot.com',
+    messagingSenderId: '927382430278',
+    appId: '1:927382430278:web:91415003054b632a82e047',
+    measurementId: 'G-GJWMQVQPGM',
+  },
 };
