@@ -6,7 +6,6 @@ import { collectionData,collection,Firestore } from '@angular/fire/firestore'
 import { environment } from 'src/environments/environment';
 import { Note } from '../model/note';
 import { Observable } from 'rxjs';
-//import * as firebase from 'firebase';
 
 @Injectable({
   providedIn: 'root'
