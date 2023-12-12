@@ -28,9 +28,12 @@ export class Tab2Page {
     })*/
   }
 
+  //How to use ComponentProps
   async editNote(note: Note) {
+    console.log(note);
     const modal = await this.modalCtrl.create({
       component: FormEditComponent,
+      componentProps: {Note:note},
     });
     modal.present();
 
