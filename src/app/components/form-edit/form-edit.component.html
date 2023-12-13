@@ -11,9 +11,9 @@
 </ion-header>
 <ion-content class="ion-padding">
   <ion-item>
-    <ion-input labelPlacement="stacked" label="Title" [(ngModel)]="note.title" placeholder="Title">{{note.title}}</ion-input>
+    <ion-input labelPlacement="stacked" label="Title" [(ngModel)]="note.title" placeholder={{note.title}}></ion-input>
   </ion-item>
   <ion-item>
-    <ion-input labelPlacement="stacked" label="Description" [(ngModel)]="note.description" placeholder="Description">{{note.description}}</ion-input>
+    <ion-input labelPlacement="stacked" label="Description" [(ngModel)]="note.description" placeholder={{note.description}}></ion-input>
   </ion-item>
 </ion-content>
