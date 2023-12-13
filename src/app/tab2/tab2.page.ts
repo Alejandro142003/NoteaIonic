@@ -18,23 +18,41 @@ export class Tab2Page {
   public noteS = inject(NoteService); //noteS.notes$
   constructor(private modalCtrl: ModalController) {}
 
-  ionViewDidEnter() {
-    /*this.misnotas=[];
-    this.noteS.readAll().subscribe(d=>{
-      console.log(d)
-      d.docs.forEach((el:any) => {
-        this.misnotas.push({'key':el.id,...el.data()});
-      });
-    })*/
+  public alertButtons = [
+    {
+      text: 'Cancelar',
+      role: 'cancel',
+      handler: () => {
+        console.log('Alert canceled');
+      },
+    },
+    {
+      text: 'Borrar',
+      role: 'confirm',
+      handler: () => {
+        console.log('Alert confirmed');
+      },
+    },
+  ];
+
+  //Resutl Alert buttons
+  setResult(ev:any, note:Note) {
+    console.log(`Dismissed with role: ${ev.detail.role}`);
+    if (ev.detail.role == 'confirm') {
+      this.deleteNote(note)
+    }
   }
 
-  //How to use ComponentProps
+
+
+  ionViewDidEnter() {}
+
   async editNote(note: Note) {
     console.log(note);
     const modal = await this.modalCtrl.create({
       component: FormEditComponent,
-      componentProps: {'note':note},
-    });    
+      componentProps: { note: note },
+    });
     await modal.present();
 
     const { data, role } = await modal.onWillDismiss();
