@@ -1,5 +1,5 @@
-import { Component,inject } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { Component,OnInit,inject } from '@angular/core';
+import { AlertController, IonAlert, IonicModule } from '@ionic/angular';
 import { NoteService } from '../services/note.service';
 import { Note } from '../model/note';
 import { CommonModule } from '@angular/common';
@@ -14,37 +14,8 @@ import { FormEditComponent } from '../components/form-edit/form-edit.component';
   imports: [IonicModule, CommonModule],
 })
 export class Tab2Page {
-  //public misnotas:Note[]=[];
   public noteS = inject(NoteService); //noteS.notes$
-  constructor(private modalCtrl: ModalController) {}
-
-  public alertButtons = [
-    {
-      text: 'Cancelar',
-      role: 'cancel',
-      handler: () => {
-        console.log('Alert canceled');
-      },
-    },
-    {
-      text: 'Borrar',
-      role: 'confirm',
-      handler: () => {
-        console.log('Alert confirmed');
-      },
-    },
-  ];
-
-  //Resutl Alert buttons
-  setResult(ev:any, note:Note) {
-    console.log(`Dismissed with role: ${ev.detail.role}`);
-    if (ev.detail.role == 'confirm') {
-      this.deleteNote(note)
-    }
-  }
-
-
-
+  constructor(private modalCtrl: ModalController, private alertController:AlertController) {}
   ionViewDidEnter() {}
 
   async editNote(note: Note) {
@@ -62,8 +33,32 @@ export class Tab2Page {
       //Añadir toast satisfactorio
     }
   }
-  deleteNote(note: Note) {
-    this.noteS.deleteNote(note);
-    //Toast implementation
+
+  async deleteNote(note: Note) {
+    const alert = await this.alertController.create({
+      header: 'Eliminar nota',
+      message: '¿Estás seguro que quieres eliminar la nota?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            console.log("Cancelación de eliminación");
+          }
+        },
+        {
+          text: 'Borrar',
+          handler: () => {
+            this.noteS.deleteNote(note)
+              .then(() => {
+              })
+              .catch(error => {
+                console.error('Error al eliminar la nota', error);
+              });
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 }
