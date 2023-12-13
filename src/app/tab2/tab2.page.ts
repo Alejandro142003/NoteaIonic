@@ -33,14 +33,15 @@ export class Tab2Page {
     console.log(note);
     const modal = await this.modalCtrl.create({
       component: FormEditComponent,
-      componentProps: {Note:note},
-    });
-    modal.present();
+      componentProps: {'note':note},
+    });    
+    await modal.present();
 
     const { data, role } = await modal.onWillDismiss();
 
     if (role === 'confirm') {
-      this.noteS.updateNote(note);
+      this.noteS.updateNote(data);
+      //Añadir toast satisfactorio
     }
   }
   deleteNote(note: Note) {
