@@ -15,8 +15,9 @@ import { NoteService } from 'src/app/services/note.service';
 })
 export class FormEditComponent implements OnInit {
   @Input() note!: Note;
-
   public noteS: NoteService
+  img: boolean = false;
+  location: boolean = false;
 
   constructor(noteS:NoteService, private modalCtrl: ModalController,) {
     this.noteS = noteS;
@@ -31,6 +32,17 @@ export class FormEditComponent implements OnInit {
   }
 
   confirm() {
+    console.log('Estado imagen:' + this.img);
+    console.log('Estado location:' + this.location);
+
+    if (this.img) {
+      this.note.img = '';
+    } else if (this.location) {
+      this.note.position = '';
+    }
+
+    console.log(this.note);
+    
     return this.modalCtrl.dismiss(this.note, 'confirm');
   }
 }

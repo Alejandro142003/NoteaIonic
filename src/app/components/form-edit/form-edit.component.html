@@ -16,4 +16,11 @@
   <ion-item>
     <ion-input labelPlacement="stacked" label="Description" [(ngModel)]="note.description" placeholder={{note.description}}></ion-input>
   </ion-item>
+  <ion-button expand="block">Ver imagen</ion-button>
+  <ion-item>
+    <ion-checkbox [(ngModel)]="img" justify="space-between">¿Quieres elimnar la ubicación?</ion-checkbox>
+  </ion-item>
+  <ion-item>
+    <ion-checkbox [(ngModel)]="location" justify="space-between">¿Quieres eliminar la imagen?</ion-checkbox>
+  </ion-item>
 </ion-content>
