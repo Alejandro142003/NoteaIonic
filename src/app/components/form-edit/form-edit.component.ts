@@ -15,11 +15,12 @@ import { NoteService } from 'src/app/services/note.service';
 })
 export class FormEditComponent implements OnInit {
   @Input() note!: Note;
-  public noteS: NoteService
+  public noteS: NoteService;
   img: boolean = false;
   location: boolean = false;
+  showImage: boolean = false;
 
-  constructor(noteS:NoteService, private modalCtrl: ModalController,) {
+  constructor(noteS: NoteService, private modalCtrl: ModalController) {
     this.noteS = noteS;
   }
 
@@ -42,7 +43,7 @@ export class FormEditComponent implements OnInit {
     }
 
     console.log(this.note);
-    
+
     return this.modalCtrl.dismiss(this.note, 'confirm');
   }
 }
