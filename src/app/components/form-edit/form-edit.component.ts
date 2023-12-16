@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { NoteService } from 'src/app/services/note.service';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { Map as LMap, TileLayer } from 'leaflet';
+import * as L from 'leaflet';
 
 @Component({
   selector: 'app-form-edit',
@@ -48,8 +49,8 @@ export class FormEditComponent implements OnInit {
   public map?: LMap;
   public center = this.centerLocation;
   public options = {
-    zoom: 10,
-    maxZoom: 19,
+    zoom: 15,
+    maxZoom: 20,
     zoomControl: false,
     preferCanvas: true,
     attributionControl: true,
@@ -64,11 +65,35 @@ export class FormEditComponent implements OnInit {
     setTimeout(() => lMap.invalidateSize(true), 0);
   }
 
+  public marker?: L.Marker;
   public async showMap() {
-    if (this.centerLocation) {
+    if (this.note.position){
       this.showLocation = true;
-      this.map?.setView(this.centerLocation);
-      setTimeout(() => this.map?.invalidateSize(true), 0);
+      setTimeout(() => {
+        if (this.centerLocation && this.map) {
+          this.map?.setView(this.centerLocation);
+          this.map?.invalidateSize();
+
+          let redIcon = new L.Icon({
+            iconUrl:
+              'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+            shadowUrl:
+              'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41],
+          });
+
+          if (this.marker) {
+            this.marker.setLatLng(this.centerLocation);
+          } else {
+            this.marker = L.marker(this.centerLocation, {
+              icon: redIcon,
+            }).addTo(this.map);
+          }
+        }
+      }, 0);
     }
   }
 
