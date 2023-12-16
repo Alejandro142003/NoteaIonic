@@ -29,6 +29,9 @@
   </ion-item>
   <ion-button expand="block" (click)="showImage = !showImage">Ver imagen</ion-button>
   <img *ngIf="showImage && note.img" [src]="'data:image/jpeg;base64,' + note.img">
-  <ion-button expand="block" (click)="showLocation = !location">Ver ubicación</ion-button>
-  <div *ngIf="location && note.position" id="map"></div>
+  <ion-button expand="block" (click)="showMap()">Ver ubicación</ion-button>
+  <div *ngIf="showLocation" leaflet class="leaflet"
+    [leafletOptions]="options"
+    (leafletMapReady)="onMapReady($event)"
+  id="map"></div>
 </ion-content>

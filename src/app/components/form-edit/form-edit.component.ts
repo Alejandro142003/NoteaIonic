@@ -1,25 +1,29 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ModalController, NavParams } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { Note } from 'src/app/model/note';
 import { CommonModule } from '@angular/common';
 import { NoteService } from 'src/app/services/note.service';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { Map as LMap, TileLayer } from 'leaflet';
 
 @Component({
   selector: 'app-form-edit',
   standalone: true,
   templateUrl: './form-edit.component.html',
   styleUrls: ['./form-edit.component.scss'],
-  imports: [IonicModule, CommonModule, FormsModule],
+  imports: [IonicModule, CommonModule, FormsModule, LeafletModule],
 })
 export class FormEditComponent implements OnInit {
   @Input() note!: Note;
   public noteS: NoteService;
+
   img: boolean = false;
   location: boolean = false;
   showImage: boolean = false;
   showLocation: boolean = false;
+  centerLocation?: [number, number] = [0, 0];
 
   constructor(noteS: NoteService, private modalCtrl: ModalController) {
     this.noteS = noteS;
@@ -28,6 +32,44 @@ export class FormEditComponent implements OnInit {
   ngOnInit() {
     console.log(this.note);
     this.formatDate();
+    if (this.note.position) {
+      let parts = this.note.position.split(',');
+
+      let latitudString = parts[0].split(': ')[1];
+      let longitudString = parts[1].split(': ')[1];
+
+      let latitud = parseFloat(latitudString);
+      let longitud = parseFloat(longitudString);
+
+      this.centerLocation = [latitud, longitud];
+    }
+  }
+
+  public map?: LMap;
+  public center = this.centerLocation;
+  public options = {
+    zoom: 10,
+    maxZoom: 19,
+    zoomControl: false,
+    preferCanvas: true,
+    attributionControl: true,
+    center: this.centerLocation,
+    layers: [
+      new TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'),
+    ],
+  };
+
+  public async onMapReady(lMap: LMap) {
+    this.map = lMap;
+    setTimeout(() => lMap.invalidateSize(true), 0);
+  }
+
+  public async showMap() {
+    if (this.centerLocation) {
+      this.showLocation = true;
+      this.map?.setView(this.centerLocation);
+      setTimeout(() => this.map?.invalidateSize(true), 0);
+    }
   }
 
   cancel() {
