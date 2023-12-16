@@ -19,6 +19,7 @@ export class FormEditComponent implements OnInit {
   img: boolean = false;
   location: boolean = false;
   showImage: boolean = false;
+  showLocation: boolean = false;
 
   constructor(noteS: NoteService, private modalCtrl: ModalController) {
     this.noteS = noteS;
@@ -26,6 +27,7 @@ export class FormEditComponent implements OnInit {
 
   ngOnInit() {
     console.log(this.note);
+    this.formatDate();
   }
 
   cancel() {
@@ -45,5 +47,23 @@ export class FormEditComponent implements OnInit {
     console.log(this.note);
 
     return this.modalCtrl.dismiss(this.note, 'confirm');
+  }
+
+  async formatDate() {
+    let timestampString = this.note.date.replace(/\./g, '');
+    let timestamp = Number(timestampString);
+
+    let date = new Date(timestamp);
+
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+
+    let hour = date.getHours();
+    let minute = date.getMinutes();
+
+    let formatedDate = `${day}/${month}/${year} ${hour}:${minute}`;
+
+    this.note.date = formatedDate;
   }
 }
