@@ -1,17 +1,15 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      About
-    </ion-title>
+    <ion-title>About</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Alejandro Gutierrez Cruces</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+  <ion-title size="large" class="animated-title" size="large">Alejandro Gutierrez</ion-title>
+  <ion-item>
+    <p>{{mensaje}}</p>
+  </ion-item>
+  <ion-item>
+    <img [src]="src" alt="Cargando la imagen del momento...">
+  </ion-item>  
 </ion-content>

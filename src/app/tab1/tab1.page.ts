@@ -24,6 +24,7 @@ export class Tab1Page {
   private myLoading!: HTMLIonLoadingElement;
   private base64Image?: string;
   private position?: string;
+  
   constructor() {
     this.form = this.formB.group({
       title: ['', [Validators.required, Validators.minLength(4)]],
