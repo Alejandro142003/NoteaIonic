@@ -68,8 +68,16 @@ export class Tab1Page {
     // You can access the original file using image.path, which can be
     // passed to the Filesystem API to read the raw data of the image,
     // if desired (or pass resultType: CameraResultType.Base64 to getPhoto)
-    this.base64Image = image.base64String;
-
+    await this.UIS.showLoading();
+    try {
+      this.base64Image = image.base64String;
+      await this.UIS.showToast('Imagen introducida correctamente', 'success');
+    } catch (error) {
+      console.log(error);
+      await this.UIS.showToast('Error al insertar la imagen', 'danger');
+    } finally {
+      await this.UIS.hideLoading();
+    }
     // Can be set to the src of an image now
     //imageElement.src = imageUrl;
   }
@@ -77,7 +85,15 @@ export class Tab1Page {
   getCurrentPosition = async () => {
     const coordinates = await Geolocation.getCurrentPosition();
 
-    this.position =
-      this.position = `Latitud: ${coordinates.coords.latitude}, Longitud: ${coordinates.coords.longitude}`;
+    try {
+      this.position =
+        this.position = `Latitud: ${coordinates.coords.latitude}, Longitud: ${coordinates.coords.longitude}`;
+      await this.UIS.showToast('Ubicación introducida correctamente', 'success');
+    } catch (error) {
+      console.log(error);
+      await this.UIS.showToast('Error al insertar la ubicación', 'danger');
+    } finally {
+      await this.UIS.hideLoading();
+    }
   };
 }
