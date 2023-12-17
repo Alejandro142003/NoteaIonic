@@ -35,10 +35,7 @@ export class Tab2Page {
 
     if (role === 'confirm') {
       this.noteS.updateNote(data);
-      await this.UIS.showToast(
-        'Nota modificada correctamente',
-        'success'
-      );
+      await this.UIS.showToast('Nota modificada correctamente', 'success');
       await this.UIS.hideLoading();
     }
   }
@@ -75,5 +72,13 @@ export class Tab2Page {
       ],
     });
     await alert.present();
+  }
+
+  async onSwipe(event: any, note: Note) {
+    if (event.detail.side === 'start') {
+      this.editNote(note);
+    } else if (event.detail.side === 'end') {
+      this.deleteNote(note);
+    }
   }
 }
