@@ -5,6 +5,7 @@ import { Note } from '../model/note';
 import { CommonModule } from '@angular/common';
 import { ModalController } from '@ionic/angular';
 import { FormEditComponent } from '../components/form-edit/form-edit.component';
+import { UIService } from '../services/ui.service';
 
 @Component({
   selector: 'app-tab2',
@@ -15,7 +16,11 @@ import { FormEditComponent } from '../components/form-edit/form-edit.component';
 })
 export class Tab2Page {
   public noteS = inject(NoteService); //noteS.notes$
-  constructor(private modalCtrl: ModalController, private alertController:AlertController) {}
+  private UIS = inject(UIService);
+  constructor(
+    private modalCtrl: ModalController,
+    private alertController: AlertController
+  ) {}
   ionViewDidEnter() {}
 
   async editNote(note: Note) {
@@ -30,7 +35,8 @@ export class Tab2Page {
 
     if (role === 'confirm') {
       this.noteS.updateNote(data);
-      //Añadir toast satisfactorio
+      await this.UIS.showToast('Nota modificada correctamente', 'success');
+      await this.UIS.hideLoading();
     }
   }
 
@@ -43,22 +49,36 @@ export class Tab2Page {
           text: 'Cancelar',
           role: 'cancel',
           handler: () => {
-            console.log("Cancelación de eliminación");
-          }
+            console.log('Cancelación de eliminación');
+          },
         },
         {
           text: 'Borrar',
           handler: () => {
-            this.noteS.deleteNote(note)
-              .then(() => {
+            this.noteS
+              .deleteNote(note)
+              .then(async () => {
+                await this.UIS.showToast(
+                  'Nota eliminada correctamente',
+                  'success'
+                );
               })
-              .catch(error => {
+              .catch(async (error) => {
                 console.error('Error al eliminar la nota', error);
+                await this.UIS.showToast('Error al eliminar la nota', 'danger');
               });
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
     await alert.present();
+  }
+
+  async onSwipe(event: any, note: Note) {
+    if (event.detail.side === 'start') {
+      this.editNote(note);
+    } else if (event.detail.side === 'end') {
+      this.deleteNote(note);
+    }
   }
 }
