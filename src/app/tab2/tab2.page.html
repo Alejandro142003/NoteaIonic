@@ -7,6 +7,11 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingText="Pull to refresh" refreshingSpinner="circles"
+      refreshingText="Refreshing..."></ion-refresher-content>
+  </ion-refresher>
+
   <ion-list>
     @for(note of noteS.notes$ | async;track note.key){
     <ion-item-sliding #item (ionSwipe)="onSwipe($event,note)">
@@ -29,4 +34,10 @@
     </ion-item-sliding>
   }
   </ion-list>
+  @if(isInfiniteScrollAvailable){
+  <ion-infinite-scroll (ionInfinite)="loadMore($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles"
+      loadingText="Loading more notes..."></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+  }
 </ion-content>

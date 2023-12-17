@@ -33,7 +33,7 @@ export class NoteService {
       idField: 'key',
     }) as Observable<Note[]>;
   }
-  
+
   addNote(note: Note): Promise<DocumentReference> {
     return this.myCollection.add(note);
   }
@@ -68,5 +68,23 @@ export class NoteService {
         reject(err);
       }
     });
+  }
+
+  readNext(
+    firstElement: any = null,
+    numberOfElements: number = 15
+  ): Promise<any> {
+    if (firstElement)
+      return this.myCollection.ref
+        .orderBy('date', 'asc')
+        .startAfter(firstElement)
+        .limit(numberOfElements)
+        .get();
+    else
+      return this.myCollection.ref
+        .orderBy('date', 'asc')
+        .startAfter(firstElement)
+        .limit(numberOfElements)
+        .get();
   }
 }
